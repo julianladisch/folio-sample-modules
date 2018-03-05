@@ -63,6 +63,11 @@ echo OK
 sleep $SLEEP
 
 echo
-echo "Checking that it works"
+echo "Checking that /hello works"
 curl $CURLOPTS -H "X-Okapi-Tenant: testlib" $OKAPI/hello || exit 1
+echo OK
+
+echo
+echo "Checking that /file download works"
+curl $CURLOPTS -H "X-Okapi-Tenant: testlib" http://localhost:9130/file || exit 1
 echo OK
