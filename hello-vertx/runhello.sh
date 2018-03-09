@@ -68,6 +68,12 @@ curl $CURLOPTS -H "X-Okapi-Tenant: testlib" $OKAPI/hello || exit 1
 echo OK
 
 echo
-echo "Checking that /file download works"
-curl $CURLOPTS -H "X-Okapi-Tenant: testlib" http://localhost:9130/file || exit 1
+echo "Checking /file* downloads"
+curl $CURLOPTS -H "X-Okapi-Tenant: testlib" http://localhost:9130/fileChunked || exit 1
+echo OK
+curl $CURLOPTS -H "X-Okapi-Tenant: testlib" http://localhost:9130/fileChunked-1.0 || exit 1
+echo OK
+curl $CURLOPTS -H "X-Okapi-Tenant: testlib" http://localhost:9130/fileUnchunked || exit 1
+echo OK
+curl $CURLOPTS -H "X-Okapi-Tenant: testlib" http://localhost:9130/fileUnchunked-1.0 || exit 1
 echo OK

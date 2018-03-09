@@ -9,7 +9,20 @@
         "pathPattern" : "/hello"
       },{
         "methods" : [ "GET" ],
-        "pathPattern" : "/file"
+        "pathPattern" : "/fileChunked",
+        "type": "request-response"
+      },{
+        "methods" : [ "GET" ],
+        "pathPattern" : "/fileChunked-1.0",
+        "type": "request-response-1.0"
+      },{
+        "methods" : [ "GET" ],
+        "pathPattern" : "/fileUnchunked",
+        "type": "request-response"
+      },{
+        "methods" : [ "GET" ],
+        "pathPattern" : "/fileUnchunked-1.0",
+        "type": "request-response-1.0"
       } ]
   } ],
   "launchDescriptor" : {

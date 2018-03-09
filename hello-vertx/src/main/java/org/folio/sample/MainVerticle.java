@@ -39,7 +39,10 @@ public class MainVerticle extends AbstractVerticle {
     Router router = Router.router(vertx);
     router.get("/hello").handler(this::get_handle);
     router.post("/hello").handler(this::post_handle);
-    router.get("/file").handler(this::getFile);
+    router.get("/fileChunked")      .handler(this::getFileChunked);
+    router.get("/fileChunked-1.0")  .handler(this::getFileChunked);
+    router.get("/fileUnchunked")    .handler(this::getFileUnchunked);
+    router.get("/fileUnchunked-1.0").handler(this::getFileUnchunked);
 
     // And start listening
     vertx.createHttpServer()
@@ -83,12 +86,16 @@ public class MainVerticle extends AbstractVerticle {
     }
   }
 
-  private InputStream inputStream() {
+  private String input() {
     String s = "";
     for (int i=1; i<=20; i++) {
       s += "This is line number " + i + " of a file that contains lines that are ordered by line number ;-)\n";
     }
-    return new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
+    return s;
+  }
+
+  private InputStream inputStream() {
+    return new ByteArrayInputStream(input().getBytes(StandardCharsets.UTF_8));
   }
 
   private String filename() {
@@ -100,8 +107,7 @@ public class MainVerticle extends AbstractVerticle {
    * Return the file chunked.
    * @param ctx  routing context
    */
-  public void getFile(RoutingContext ctx) {
-    logger.debug("Hello: handling GET /file");
+  public void getFileChunked(RoutingContext ctx) {
     ctx.response()
       .setStatusCode(200)
       .setChunked(true)
@@ -115,11 +121,24 @@ public class MainVerticle extends AbstractVerticle {
         Buffer buffer = Buffer.buffer(length).setBytes(0, buf, 0, length);
         ctx.response().write(buffer);
       }
+      ctx.response().end();
     } catch (Exception e) {
       e.printStackTrace();
       ctx.response()
         .setStatusCode(500).putHeader("content-type", "text/plain").end(e.getCause().getLocalizedMessage());
     }
-    ctx.response().end();
+  }
+
+  /**
+   * Return the complete file (unchunked).
+   * @param ctx  routing context
+   */
+  public void getFileUnchunked(RoutingContext ctx) {
+    ctx.response()
+      .setStatusCode(200)
+      .setChunked(true)
+      .putHeader("Content-Disposition", "attachment;filename="+filename())
+      .putHeader("Content-Type", "application/octet-stream")
+      .end(input());  // this automatically sets Content-Length
   }
 }
