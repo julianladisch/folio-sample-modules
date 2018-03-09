@@ -40,9 +40,9 @@ public class MainVerticle extends AbstractVerticle {
     router.get("/hello").handler(this::get_handle);
     router.post("/hello").handler(this::post_handle);
     router.get("/fileChunked")      .handler(this::getFileChunked);
-    router.get("/fileChunked-1.0")  .handler(this::getFileChunked);
+    router.get("/fileChunked-1-0")  .handler(this::getFileChunked);
     router.get("/fileUnchunked")    .handler(this::getFileUnchunked);
-    router.get("/fileUnchunked-1.0").handler(this::getFileUnchunked);
+    router.get("/fileUnchunked-1-0").handler(this::getFileUnchunked);
 
     // And start listening
     vertx.createHttpServer()
