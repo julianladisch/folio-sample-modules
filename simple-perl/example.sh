@@ -58,7 +58,7 @@ echo "Deploying it on localhost"
 curlf -X POST \
   -H "Content-type: application/json" \
   -d @$DEPLOY  \
-  $OKAPI/_/discovery/modules || (sleep 1; cat okapi.log; exit 1)
+  $OKAPI/_/discovery/modules || (sleep 1; cat ../okapi.log; exit 1)
 echo OK
 sleep $SLEEP
 
