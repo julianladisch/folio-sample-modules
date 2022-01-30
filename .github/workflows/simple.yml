@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Start Okapi
         run: |
+          pwd
+          echo "bar" > foo.log
+          echo "x"
+          cat foo.log
           docker create --name okapi folioorg/okapi
           docker cp okapi:/usr/verticles/okapi-core-fat.jar okapi-core-fat.jar
           docker rm -f okapi
@@ -35,7 +39,7 @@ jobs:
       - run: pwd
       - run: ls -al
       - run: ls -al ..
-      - run: cat ../okapi.log
+      - run: cat okapi.log ../okapi.log ../../okapi.log
       - name: Install Net::Server Perl Module
         run: sudo cpan -Ti Net::Server
       - run: cd simple-perl; ./example.sh
