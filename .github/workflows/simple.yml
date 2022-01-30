@@ -31,6 +31,7 @@ jobs:
 #        run: |
 #          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib/modules
 #          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib
+      - run: sleep 10
       - run: pwd
       - run: ls -al
       - run: ls -al ..
