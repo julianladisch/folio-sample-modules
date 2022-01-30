@@ -25,12 +25,14 @@ jobs:
           key: vertx
       - name: Okapi health
         run: curl --retry 30 --retry-delay 1 --retry-connrefused -sS http://localhost:9130/_/proxy/health
-      - run: cd hello-vertx; ./runhello.sh
-      - run: cd simple-vertx; ./runsimple.sh
-      - name: Disable *-vertx modules and tenant
-        run: |
-          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib/modules
-          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib
+#      - run: cd hello-vertx; ./runhello.sh
+#      - run: cd simple-vertx; ./runsimple.sh
+#      - name: Disable *-vertx modules and tenant
+#        run: |
+#          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib/modules
+#          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib
+      - run: ls -al
+      - run: cat okapi.log
       - name: Install Net::Server Perl Module
         run: sudo cpan -Ti Net::Server
       - run: cd simple-perl; ./example.sh
