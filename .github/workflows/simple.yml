@@ -13,15 +13,11 @@ jobs:
     steps:
       - name: Start Okapi
         run: |
-          pwd
-          echo "bar" > foo.log
-          echo "x"
-          cat foo.log
           docker create --name okapi folioorg/okapi
           docker cp okapi:/usr/verticles/okapi-core-fat.jar okapi-core-fat.jar
           docker rm -f okapi
           OKAPI=http://`docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge`:9130
-          (java -Dokapiurl=$OKAPI -jar okapi-core-fat.jar dev | tee okapi.log) &
+          (java -Dokapiurl=$OKAPI -jar okapi-core-fat.jar dev | tee /tmp/okapi.log) &
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:
@@ -35,11 +31,6 @@ jobs:
 #        run: |
 #          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib/modules
 #          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib
-      - run: sleep 10
-      - run: pwd
-      - run: ls -al
-      - run: ls -al ..
-      - run: cat okapi.log ../okapi.log ../../okapi.log
       - name: Install Net::Server Perl Module
         run: sudo cpan -Ti Net::Server
-      - run: cd simple-perl; ./example.sh
+      - run: (cd simple-perl; ./example.sh) || cat /tmp/okapi.log
