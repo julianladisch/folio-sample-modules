@@ -2,7 +2,7 @@ name: simple
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, update-perl-container ]
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -31,8 +31,10 @@ jobs:
 #        run: |
 #          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib/modules
 #          curl -s -S -D - -XDELETE http://localhost:9130/_/proxy/tenants/testlib
+      - run: pwd
       - run: ls -al
-      - run: cat okapi.log
+      - run: ls -al ..
+      - run: cat ../okapi.log
       - name: Install Net::Server Perl Module
         run: sudo cpan -Ti Net::Server
       - run: cd simple-perl; ./example.sh
