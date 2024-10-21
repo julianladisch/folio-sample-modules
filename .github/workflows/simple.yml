@@ -23,7 +23,7 @@ jobs:
           docker network inspect bridge
           docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge
           OKAPI=http://`docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge`:9130
-          ( java -Dokapiurl=$OKAPI -jar okapi-core-fat.jar dev | tee /tmp/out )&
+          java -Dokapiurl=$OKAPI -jar okapi-core-fat.jar dev &
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
         with:
