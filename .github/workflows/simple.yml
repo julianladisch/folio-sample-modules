@@ -14,12 +14,16 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
       - name: Start Okapi
         run: |
           docker create --name okapi folioorg/okapi
           docker cp okapi:/usr/verticles/okapi-core-fat.jar okapi-core-fat.jar
           docker rm -f okapi
+          echo 'docker network inspect bridge'
+          docker network inspect bridge
+          echo '2'
+          docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge
           OKAPI=http://`docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge`:9130
           java -Dokapiurl=$OKAPI -jar okapi-core-fat.jar dev &
       - uses: actions/checkout@v4
